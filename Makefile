@@ -24,7 +24,7 @@ all: make_image
 u_boot_h5:
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50i_h5_spl32_defconfig
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-"
-	@cp u-boot-h5/spl/sunxi-spl.bin sunxi-spl.bin
+	@cp u-boot/spl/sunxi-spl.bin sunxi-spl.bin
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnueabihf-" orangepi_pc2_defconfig
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnueabihf-"
 
