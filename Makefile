@@ -38,7 +38,8 @@ arm_trusted_firmware:
 .PHONY: make_image
 make_image: u_boot_h5 arm_trusted_firmware $(DTB)
 	@dtc -I dts -O dtb -o dt.dtb dt.dts
-	@mkimage -f u-boot/sun50i-h5.its sun50i-h5.itb
+	@cp arm-trusted-firmware/build/sun50iw1p1/debug/bl31.bin u-boot/bl31.bin
+	@mkimage -f u-boot/sun50i_h5.its sun50i_h5.itb
 
 .PHONY: clean
 clean:
