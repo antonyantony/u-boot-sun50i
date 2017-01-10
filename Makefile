@@ -38,7 +38,7 @@ arm_trusted_firmware:
 .PHONY: make_image
 make_image: u_boot_h5 arm_trusted_firmware $(DTB)
 	@dtc -I dts -O dtb -o dt.dtb dt.dts
-	@mkimage -f u-boot-h5/boards/sunxi/sun50i-h5.its sun50i-h5.itb
+	@mkimage -f blobs/sun50i-h5.its sun50i-h5.itb
 
 .PHONY: clean
 clean:
