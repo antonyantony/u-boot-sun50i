@@ -30,7 +30,7 @@ u_boot_h5:
 
 .PHONY: arm_trusted_firmware
 arm_trusted_firmware:
-	$(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 DEBUG=1 bl31
+	$(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 DEBUG=1 CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" bl31
 
 %.dtb: blobs/%.dts
 	dtc -I dts -O dtb -o $@ $<
