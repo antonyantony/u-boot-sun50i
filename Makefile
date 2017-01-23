@@ -45,7 +45,7 @@ make_image: u_boot_h5 arm_trusted_firmware $(DTB)
 clean:
 	[ -f u-boot/Makefile ] && $(MAKE) -C u-boot ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
 	[ -f arm-trusted-firmware/Makefile ] && $(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 distclean
-	@rm -f sunxi-spl.bin u-boot-with-dtb.bin dt.dts dt.dtb $(DTB)
+	@rm -f sunxi-spl.bin sun50i_h5.itb u-boot-with-dtb.bin dt.dts dt.dtb $(DTB)
 
 .PHONY: pine64_plus_defconfig
 pine64_plus_defconfig:
