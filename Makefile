@@ -36,6 +36,17 @@ u_boot_a64:
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
 	@cp u-boot/u-boot.bin u-boot.bin
 
+.PHONY: u_boot_a64_so
+u_boot_a64_so:
+	$(MAKE) -C u-boot clean
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50i_spl32_lpddr3_defconfig
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-"
+	@cp u-boot/spl/sunxi-spl.bin sunxi-spl.bin
+	$(MAKE) -C u-boot clean
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" pine64_plus_defconfig
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
+	@cp u-boot/u-boot.bin u-boot.bin
+
 .PHONY: arm_trusted_firmware
 arm_trusted_firmware:
 	$(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 DEBUG=1 CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" bl31
@@ -48,6 +59,11 @@ h5: u_boot_h5 arm_trusted_firmware
 
 .PHONY: a64
 a64: u_boot_a64 arm_trusted_firmware
+	@u-boot/tools/mkimage -E -f config.its u-boot.itb
+	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
+
+.PHONY: a64so
+a64so: u_boot_a64_so arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
 	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
 
