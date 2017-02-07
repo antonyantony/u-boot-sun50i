@@ -52,18 +52,18 @@ arm_trusted_firmware:
 	$(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 DEBUG=1 CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" bl31
 	@cp arm-trusted-firmware/build/sun50iw1p1/debug/bl31.bin bl31.bin
 
-.PHONY: h5
-h5: u_boot_h5 arm_trusted_firmware
+.PHONY: orangepipc2
+orangepipc2: u_boot_h5 arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
 	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
 
-.PHONY: a64
-a64: u_boot_a64 arm_trusted_firmware
+.PHONY: pine64
+pine64: u_boot_a64 arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
 	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
 
-.PHONY: a64so
-a64so: u_boot_a64_so arm_trusted_firmware
+.PHONY: pine64so
+pine64so: u_boot_a64_so arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
 	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
 
