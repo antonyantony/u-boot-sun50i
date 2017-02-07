@@ -77,6 +77,10 @@ clean:
 pine64_plus_defconfig:
 	@cp blobs/sun50i_a64.its config.its
 
+.PHONY: pine64_so_defconfig
+pine64_so_defconfig:
+	@cp blobs/sun50i_a64.its config.its
+
 .PHONY: orangepi_pc2_defconfig
 orangepi_pc2_defconfig:
 	@cp blobs/sun50i_h5.its config.its
