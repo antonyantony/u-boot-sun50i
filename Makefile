@@ -57,6 +57,11 @@ orangepipc2: u_boot_h5 arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
 	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
 
+.PHONY: nanopineo2
+nanopineo2: u_boot_h5 arm_trusted_firmware
+	@u-boot/tools/mkimage -E -f config.its u-boot.itb
+	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
+
 .PHONY: pine64
 pine64: u_boot_a64 arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
@@ -83,4 +88,8 @@ pine64_so_defconfig:
 
 .PHONY: orangepi_pc2_defconfig
 orangepi_pc2_defconfig:
+	@cp blobs/sun50i_h5.its config.its
+
+.PHONY: nanopi_neo2_defconfig
+nanopi_neo2_defconfig:
 	@cp blobs/sun50i_h5.its config.its
