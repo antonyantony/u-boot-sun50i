@@ -47,6 +47,17 @@ u_boot_h5_zeroplus:
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
 	@cp u-boot/u-boot.bin u-boot.bin
 
+.PHONY: u_boot_nanopim1plus2
+u_boot_h5_nanopim1plus2:
+	$(MAKE) -C u-boot clean
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50i_h5_spl32_defconfig
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-"
+	@cp u-boot/spl/sunxi-spl.bin sunxi-spl.bin
+	$(MAKE) -C u-boot clean
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" nanopim1plus2_defconfig
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
+	@cp u-boot/u-boot.bin u-boot.bin
+
 .PHONY: u_boot_a64
 u_boot_a64:
 	$(MAKE) -C u-boot clean
@@ -105,6 +116,11 @@ nanopineo2: u_boot_h5 arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
 	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
 
+.PHONY: nanopim1plus2
+nanopim1plus2: u_boot_h5_nanopim1plus2 arm_trusted_firmware
+	@u-boot/tools/mkimage -E -f config.its u-boot.itb
+	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
+
 .PHONY: pine64
 pine64: u_boot_a64 arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
@@ -152,4 +168,8 @@ orangepi_zeroplus_defconfig:
 
 .PHONY: nanopi_neo2_defconfig
 nanopi_neo2_defconfig:
+	@cp blobs/sun50i_h5.its config.its
+
+.PHONY: nanopim1plus2_defconfig
+nanopineo2_defconfig:
 	@cp blobs/sun50i_h5.its config.its
