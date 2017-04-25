@@ -171,5 +171,5 @@ nanopi_neo2_defconfig:
 	@cp blobs/sun50i_h5.its config.its
 
 .PHONY: nanopim1plus2_defconfig
-nanopineo2_defconfig:
+nanopim1plus2_defconfig:
 	@cp blobs/sun50i_h5.its config.its
