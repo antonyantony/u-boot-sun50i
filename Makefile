@@ -47,7 +47,7 @@ u_boot_h5_zeroplus:
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
 	@cp u-boot/u-boot.bin u-boot.bin
 
-.PHONY: u_boot_nanopim1plus2
+.PHONY: u_boot_h5_nanopim1plus2
 u_boot_h5_nanopim1plus2:
 	$(MAKE) -C u-boot clean
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50i_h5_spl32_defconfig
