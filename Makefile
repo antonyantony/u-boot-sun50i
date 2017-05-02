@@ -80,6 +80,17 @@ u_boot_a64_so:
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
 	@cp u-boot/u-boot.bin u-boot.bin
 
+.PHONY: u_boot_a64_pinebook
+u_boot_a64_so:
+	$(MAKE) -C u-boot clean
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50i_spl32_lpddr3_defconfig
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-"
+	@cp u-boot/spl/sunxi-spl.bin sunxi-spl.bin
+	$(MAKE) -C u-boot clean
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" pine64_plus_defconfig
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
+	@cp u-boot/u-boot.bin u-boot.bin
+
 .PHONY: u_boot_a64_opiwin
 u_boot_a64_opiwin:
 	$(MAKE) -C u-boot clean
@@ -131,6 +142,11 @@ pine64so: u_boot_a64_so arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
 	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
 
+.PHONY: pinebook-a64
+pinebook-a64: u_boot_a64_pinebook arm_trusted_firmware
+	@u-boot/tools/mkimage -E -f config.its u-boot.itb
+	@aarch64-linux-gnu-objcopy --gap-fill=0xff  -j .text -j .rodata -j .data -j .u_boot_list -j .rela.dyn -j .efi_runtime -j .efi_runtime_rel -I binary -O binary --pad-to=32768 --gap-fill=0xff sunxi-spl.bin u-boot-sunxi-with-spl.bin && cat u-boot.itb >> u-boot-sunxi-with-spl.bin
+
 .PHONY: orangepiwin
 orangepiwin: u_boot_a64_opiwin arm_trusted_firmware
 	@u-boot/tools/mkimage -E -f config.its u-boot.itb
@@ -148,6 +164,10 @@ pine64_plus_defconfig:
 
 .PHONY: pine64_so_defconfig
 pine64_so_defconfig:
+	@cp blobs/sun50i_a64.its config.its
+
+.PHONY: pinebook64_defconfig
+pinebook64_defconfig:
 	@cp blobs/sun50i_a64.its config.its
 
 .PHONY: orangepi_win_defconfig
