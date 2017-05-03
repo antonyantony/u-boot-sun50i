@@ -83,7 +83,7 @@ u_boot_a64_so:
 .PHONY: u_boot_a64_pinebook
 u_boot_a64_pinebook:
 	$(MAKE) -C u-boot clean
-	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50i_spl32_defconfig
+	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50i_spl32_lpddr3_defconfig
 	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-"
 	@cp u-boot/spl/sunxi-spl.bin sunxi-spl.bin
 	$(MAKE) -C u-boot clean
