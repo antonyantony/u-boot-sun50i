@@ -166,8 +166,8 @@ pine64_plus_defconfig:
 pine64_so_defconfig:
 	@cp blobs/sun50i_a64.its config.its
 
-.PHONY: pinebook64_defconfig
-pinebook64_defconfig:
+.PHONY: pine64_pinebook_defconfig
+pine64_pinebook_defconfig:
 	@cp blobs/sun50i_a64.its config.its
 
 .PHONY: orangepi_win_defconfig
